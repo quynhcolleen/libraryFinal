@@ -13,21 +13,20 @@ using namespace std;
 
 static int bookCounter = 1;
 
-string normalizeString(const string &s)
+// Chuẩn hóa title, author
+string normalizeString(const string& s)
 {
     stringstream ss(s);
-    string res = "", word;
-    while (ss >> word)
-    {
+    string res, word;
+    while (ss >> word) {
         res += toupper(word[0]);
-        for (int j = 1; j < word.size(); j++)
-        {
+        for (size_t j = 1; j < word.size(); j++) {
             res += tolower(word[j]);
         }
         res += " ";
     }
-    res.pop_back();
-    return s;
+    if (!res.empty()) res.pop_back();
+    return res;
 }
 
 void addBook(vector<BorrowableBook> &books)

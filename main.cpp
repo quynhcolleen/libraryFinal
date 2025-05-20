@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "bookManange.h"
+#include <unistd.h>
 
 using namespace std;
 
@@ -58,9 +59,13 @@ int main()
             break;
         case 4:
             cout << endl;
+            setColor(12);
             cout << "The program is terminated.";
+            setColor(14);
+            sleep(2);
             cout << endl
                  << "2024.2 final by Hoang Phi Hung & Le Anh Vuong.";
+            sleep(2);
             exit(0);
             break;
         default:
