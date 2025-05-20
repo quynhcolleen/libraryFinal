@@ -1,0 +1,62 @@
+#pragma once
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+class Book
+{
+protected:
+    string id;
+    string title;
+    string author;
+    int quantity;
+
+public:
+    Book() : id("0"), title(""), author(""), quantity(0) {}
+    Book(string id, const string &t, const string &a, int q)
+        : id(id), title(t), author(a), quantity(q) {}
+    string getID() const {
+        return id;
+    }
+    string getTitle() const {
+        return title;
+    }
+    string getAuthor() const {
+        return author;
+    }
+    int getQuantity() const { 
+        return quantity;
+    }
+
+    void setTitle(const string &t) {
+        title = t;
+    }
+    void setAuthor(const string &a) {
+        author = a;
+    }
+    void setQuantity(int q) {
+        quantity = q;
+    }
+
+    bool isAvailable() const {
+        return quantity > 0;
+    }
+    void issue() {
+        if (isAvailable()) {
+            quantity--;
+        }
+    }
+    virtual void returnBook() {
+        quantity++;
+    }
+
+    void display() {
+        cout << "| " << setw(4) << left << id
+        << " | " << setw(20) << left << author
+        << " | " << setw(28) << left << title
+        << " | " << setw(8) << right << quantity << " |\n";
+    };
+};
+
