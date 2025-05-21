@@ -8,12 +8,15 @@
 
 using namespace std;
 
+// Đổi màu chữ
+
 inline void setColor(int color) {
 #ifdef _WIN32
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 #endif
 }
 
+// In chữ ra giữa
 inline void printCentered(const string& text, int width = 73) {
     int padding = (width - static_cast<int>(text.length())) / 2;
     if (padding > 0)
@@ -21,7 +24,7 @@ inline void printCentered(const string& text, int width = 73) {
     cout << text << endl;
 }
 
-
+// Kẻ lề bảng
 inline void printLibraryHeader() {
     setColor(12);
     cout << string(73, '=') << endl;

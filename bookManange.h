@@ -14,21 +14,25 @@ using namespace std;
 static int bookCounter = 1;
 
 // Chuẩn hóa title, author
-string normalizeString(const string& s)
+string normalizeString(const string &s)
 {
     stringstream ss(s);
     string res, word;
-    while (ss >> word) {
+    while (ss >> word)
+    {
         res += toupper(word[0]);
-        for (size_t j = 1; j < word.size(); j++) {
+        for (size_t j = 1; j < word.size(); j++)
+        {
             res += tolower(word[j]);
         }
         res += " ";
     }
-    if (!res.empty()) res.pop_back();
+    if (!res.empty())
+        res.pop_back();
     return res;
 }
 
+// Thêm sách vào thư viện
 void addBook(vector<BorrowableBook> &books)
 {
     static int bookCounter = 3;
@@ -75,4 +79,66 @@ void addBook(vector<BorrowableBook> &books)
     cout << "ID: " << newID << endl;
     cout << title << " by " << author << endl;
     cout << "Quantity: " << quantity << ". Total: " << quantity << "\n";
+}
+
+void bookIssue(vector<BorrowableBook> &books)
+{
+    vector<BorrowableBook *> borrowed;
+
+    string user;
+    cout << "Enter borrower's student ID: ";
+    cin >> user;
+    cin.ignore();
+    getline(cin, user);
+
+    int d, m, y;
+    cout << "Enter borrow date (dd/mm/yy):\n";
+    cin >> d >> m >> y;
+    int amount;
+    cout << "\nEnter how many book you want to borrow: ";
+    cin >> amount;
+    while (amount--)
+    {
+        cout << "Enter book's ID: ";
+        string input;
+        cin >> input;
+        BorrowableBook *book = searchByID(books, input);
+        if (book == nullptr)
+        {
+            setColor(12);
+            cout << "Book not found.\n";
+            setColor(7);
+            continue; // Không có thì bỏ qua
+        }
+        else if (book->getQuantity() <= 0)
+        {
+            setColor(12);
+            cout << "This book is currently not available\n";
+            setColor(7);
+            continue;
+        }
+
+        Date date(d, m, y);
+        book->borrow(date, user);
+        borrowed.push_back(book);
+    }
+    if (!borrowed.empty())
+    {
+        setColor(10);
+        cout << "\nUser " << user << " borrowed the following book(s):\n";
+        setColor(7);
+
+        drawTable();
+        for (BorrowableBook *b : borrowed)
+        {
+            b->display();
+        }
+        endTable();
+    }
+    else
+    {
+        setColor(14);
+        cout << "\nNo books were borrowed.\n";
+        setColor(7);
+    }
 }

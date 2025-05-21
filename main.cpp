@@ -1,4 +1,5 @@
 #include "book.h"
+#include "searchBook.h"
 #include "tableLayout.h"
 #include "borrowableBook.h"
 #include "utils.h"
@@ -43,7 +44,9 @@ int main()
             choices();
             break;
         case 2:
-            // searchBook(books);
+            system("cls");
+            printLibraryHeader();
+            searchMenu(books);
             break;
         case 3:
             system("cls");

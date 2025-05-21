@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#pragma once
 
 using namespace std;
 
