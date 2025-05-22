@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <iomanip>
 
 #ifdef _WIN32
 #include <windows.h> 
@@ -33,5 +34,19 @@ inline void printLibraryHeader() {
     setColor(12);
     cout << string(73, '=') << endl;
     setColor(7);
+}
 
+// Vẽ bảng
+void drawTable()
+{
+    cout << "+------+----------------------+------------------------------+----------+\n";
+    cout << "| " << setw(4) << left << "ID"
+         << " | " << setw(20) << left << "Author"
+         << " | " << setw(28) << left << "Title"
+         << " | " << setw(8) << right << "Quantity" << " |\n";
+    cout << "+------+----------------------+------------------------------+----------+\n";
+}
+void endTable()
+{
+    cout << "+------+----------------------+------------------------------+----------+\n";
 }
