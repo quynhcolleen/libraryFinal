@@ -4,29 +4,29 @@
 #include <iomanip>
 
 #ifdef _WIN32
-#include <windows.h> 
+#include <windows.h>
 #endif
 
 using namespace std;
 
-// Đổi màu chữ
-
-inline void setColor(int color) {
+inline void setColor(int color)
+{
 #ifdef _WIN32
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 #endif
 }
 
-// In chữ ra giữa
-inline void printCentered(const string& text, int width = 73) {
+// Căn lề giữa
+inline void printCentered(const string &text, int width = 73)
+{
     int padding = (width - static_cast<int>(text.length())) / 2;
     if (padding > 0)
         cout << string(padding, ' ');
     cout << text << endl;
 }
 
-// Kẻ lề bảng
-inline void printLibraryHeader() {
+inline void printLibraryHeader()
+{
     setColor(12);
     cout << string(73, '=') << endl;
     setColor(14);
@@ -36,7 +36,6 @@ inline void printLibraryHeader() {
     setColor(7);
 }
 
-// Vẽ bảng
 void drawTable()
 {
     cout << "+------+----------------------+------------------------------+----------+\n";
@@ -49,4 +48,24 @@ void drawTable()
 void endTable()
 {
     cout << "+------+----------------------+------------------------------+----------+\n";
+}
+
+void choices()
+{
+    cout << endl;
+    setColor(240); cout << "1."; setColor(7); cout << " Manage Books\n";
+    setColor(240); cout << "2."; setColor(7); cout << " Search Books\n";
+    setColor(240); cout << "3."; setColor(7); cout << " Borrow / Return Books\n";
+    setColor(240); cout << "4."; setColor(7); cout << " Manage Library Cards\n";
+    setColor(240); cout << "5."; setColor(7); cout << " View Activity Logs\n";
+    setColor(240); cout << "6."; setColor(7); cout << " Exit\n";
+    cout << "\nEnter your choice: ";
+}
+
+void printSearchMenu() {
+    setColor(240); cout << "1."; setColor(7); cout << " Search by ID\n";
+    setColor(240); cout << "2."; setColor(7); cout << " Search by Title\n";
+    setColor(240); cout << "3."; setColor(7); cout << " Search by Author\n";
+    setColor(240); cout << "4."; setColor(7); cout << " Display available books\n";
+    setColor(240); cout << "0."; setColor(7); cout << " Return to main menu\n";
 }

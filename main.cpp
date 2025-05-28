@@ -1,91 +1,150 @@
-#include "book.h"
-#include "bookUtils.h"
-#include "ui.h"
+#include "book.h"      // Định nghĩa lớp sách
+#include "bookUtils.h" // Các hàm xử lý sách
+#include "ui.h"        // Hàm giao diện người dùng
 #include <iostream>
 #include <vector>
-#include <unistd.h>
+#include <unistd.h>    // Sử dụng hàm sleep()
+#include "cardUtils.h" // Xử lý thẻ thư viện
+#include "dataIO.h"    // Đọc/ghi dữ liệu từ/to file
+#include "log.h"       // Ghi nhật ký hoạt động
 
 using namespace std;
-
-void choices()
-{
-    cout << endl;
-    setColor(12); cout << "1"; setColor(7); cout << ". Add Book\n";
-    setColor(12); cout << "2"; setColor(7); cout << ". Search Book\n";
-    setColor(12); cout << "3"; setColor(7); cout << ". Show library\n";
-    setColor(12); cout << "4"; setColor(7); cout << ". Borrow Book\n";
-    setColor(12); cout << "5"; setColor(7); cout << ". Exit\n";
-    cout << "Enter your choice: ";
-}
-
-// Vào class Book làm thêm hàm hủy các constructor
 
 int main()
 {
     printLibraryHeader();
-    vector<BorrowableBook> books;
-    BorrowableBook b1("001", "Ky thuat lap trinh", "Colleen", 1);
-    BorrowableBook b2("002", "Truong dien tu", "Le Anh Vuong", 1);
-    BorrowableBook b3("003", "Chuan hoa ten", "Xuan Vu", 0);
-    BorrowableBook b4("004", "Tach mon dai cuong", "Huy Hoang", 3);
 
-    books.push_back(b1);
-    books.push_back(b2);
-    books.push_back(b3);
-    books.push_back(b4);
+    // Đọc danh sách sách và lưu vào vector
+    vector<BorrowableBook> books = loadBooksFromFiles();
+
     int choice;
-    choices();
+    choices(); // Menu chính
+
     do
     {
-        cin >> choice;
+        cin >> choice; // Nhập lựa chọn
         switch (choice)
         {
-        case 1:
-            system("cls");
-            printLibraryHeader();
-            cout << endl;
-            addBook(books);
-            cout << endl;
-            choices();
-            break;
-        case 2:
-            system("cls");
-            printLibraryHeader();
-            searchMenu(books);
-            break;
-        case 3:
-            system("cls");
-            printLibraryHeader();
-            drawTable();
-            for (BorrowableBook &b : books)
+        case 1:                   // Quản lý sách
+            system("cls");        // Clear màn hình
+            printLibraryHeader(); // In tiêu đề
+            cout << "\n1. Add Book\n2. Delete Book\n3. Show Library\nOption: ";
+            int subChoice; // Lưu lựa chọn con
+            cin >> subChoice;
+            switch (subChoice)
             {
-                b.display();
+            case 1:
+                addBook(books); // Thêm sách
+                break;
+            case 2:
+                removeOrReduceBook(books); // Giảm hoặc xóa sách
+                break;
+            case 3:
+                system("cls");
+                printLibraryHeader();
+                cout << endl;
+                drawTable(); // Vẽ bảng sách
+
+                // Sắp xếp sách theo ID tăng dần
+                sort(books.begin(), books.end(), [](const BorrowableBook &a, const BorrowableBook &b)
+                     { return stoi(a.getID()) < stoi(b.getID()); });
+                // Hiển thị sách
+                for (BorrowableBook &b : books)
+                    b.display();
+
+                endTable();
+                break;
+            default:
+                cout << "Invalid option.\n"; // Trường hợp nhập sai
+                break;
             }
-            endTable();
-            cout << endl;
-            choices();
+            choices(); // Hiển thị lại menu chính
             break;
-        case 4:
+
+        case 2: // Tìm kiếm sách
             system("cls");
             printLibraryHeader();
             cout << endl;
-            bookIssue(books);
-            cout << endl;
+            searchMenu(books); // Gọi menu tìm kiếm
+            system("cls");     // Lựa chọn 0. Return to main menu
+            printLibraryHeader();
+            choices();
             break;
-        case 5:
+
+        case 3: // Mượn & trả sách
+            system("cls");
+            printLibraryHeader();
+            setColor(240); cout << "1."; setColor(7); cout << " Borrow Book\n";
+            setColor(240); cout << "2."; setColor(7); cout << " Return Book\n";
+            cout << "\n Option: ";
+            cin >> subChoice; // Lưu lựa chọn con
+            switch (subChoice)
+            {
+            case 1:
+                bookIssue(books); // Thuê sách
+                break;
+            case 2:
+                bookReturn(books); // Trả sách
+                break;
+            default:
+                cout << "Invalid option.\n";
+                break;
+            }
+            choices();
+            break;
+
+        case 4: // Tạo thẻ sinh viên
+            system("cls");
+            printLibraryHeader();
+            setColor(240); cout << "1."; setColor(7); cout << " Register a library card\n";
+            setColor(240); cout << "2."; setColor(7); cout << " Show all cards\n";
+            cout << "\n Option: ";
+            cin >> subChoice;
+            switch (subChoice) // Lưu lựa chọn con
+            {
+            case 1:
+                createCard(); // Tạo thẻ
+                break;
+            case 2:
+                system("cls");
+                printLibraryHeader();
+                showAllCards(); // Hiện danh sách thẻ
+                break;
+            default:
+                cout << "Invalid option.\n";
+                break;
+            }
+            choices();
+            break;
+        case 5: // Hiện lịch sử truy cập
+            system("cls");
+            printLibraryHeader();
+            cout << "\n--- Activity Log ---\n";
+            {
+                ifstream fin("data/logs.txt"); // Mở file log để đọc
+                string line;
+                while (getline(fin, line))
+                    cout << line << "\n"; // In log ra màn hình
+                fin.close();
+            }
+            choices();
+            break;
+
+        case 6:
             cout << endl;
             setColor(12);
             cout << "Exiting...";
             setColor(14);
             cout << endl
                  << "2024.2 final by Hoang Phi Hung & Le Anh Vuong.";
-            sleep(2);
-            exit(0);
+            sleep(2); // Outro 2 giây để hiện credit
+            exit(0);  // Thoát chương trình và trả về 0
             break;
         default:
-            cout << "Invalid choice. Please try again.\n";
+            cout << "Invalid choice.\n";
+            break;
         }
-    } while (choice != 4);
+    } while (choice != 6);
 
     return 0;
 }

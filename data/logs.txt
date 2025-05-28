@@ -1,0 +1,10 @@
+[28/05/2025 00:13:29] BORROW: Student: 20223991 borrowed book ID: 001
+[28/05/2025 00:13:29] BORROW: Student: 20223991 borrowed book ID: 002
+[28/05/2025 00:13:52] RETURN: Student: 20223991 returned book ID: 001
+[28/05/2025 00:13:53] RETURN: Student: 20223991 returned book ID: 002
+[28/05/2025 00:16:32] BORROW: Student: 20223991 borrowed book ID: 001
+[28/05/2025 00:16:33] BORROW: Student: 20223991 borrowed book ID: 002
+[28/05/2025 00:16:59] RETURN: Student: 20223991 returned book ID: 001
+[28/05/2025 00:17:00] RETURN: Student: 20223991 returned book ID: 002
+[28/05/2025 00:17:01] RETURN: Student: 20223991 returned book ID: 001
+[28/05/2025 00:17:01] RETURN: Student: 20223991 returned book ID: 002

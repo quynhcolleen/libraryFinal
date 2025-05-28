@@ -1,0 +1,10 @@
+001,Mat biec,Nguyen Nhat Anh,6
+002,Chi Pheo,Nam Cao,4
+003,Canh dong bat tan,Nguyen Ngoc Tu,4
+004,Vo chong A Phu,To Hoai,2
+005,Lang le Sa Pa,Nguyen Thanh Long,6
+006,The Old Man and The Sea,Ernest Hemingway,4
+007,Les Miserables,Victor Hugo,3
+008,The Stranger,Albert Camus,2
+009,The Kite Runner,Khaled Hosseini,5
+010,Crime and Punishment,Fyodor Dostoevsky,2

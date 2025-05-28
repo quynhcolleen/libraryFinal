@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include "date.h"
 
 using namespace std;
 
@@ -72,27 +73,6 @@ public:
     };
 };
 
-// Struct để định dạng thứ ngày tháng
-struct Date
-{
-    int day;
-    int month;
-    int year;
-
-    Date(int d = 1, int m = 1, int y = 2000) : day(d), month(m), year(y) {}
-
-    string toString() const
-    {
-        return to_string(day) + "/" +
-               to_string(month) + "/" +
-               to_string(year % 100);
-    }
-
-    bool isDefault() const
-    {
-        return day == 1 && month == 1 && year == 2000;
-    }
-};
 
 class BorrowableBook : public Book
 {
