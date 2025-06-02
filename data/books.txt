@@ -1,10 +1,16 @@
-001,Mat biec,Nguyen Nhat Anh,6
+001,Mat biec,Nguyen Nhat Anh,3
 002,Chi Pheo,Nam Cao,4
-003,Canh dong bat tan,Nguyen Ngoc Tu,4
-004,Vo chong A Phu,To Hoai,2
-005,Lang le Sa Pa,Nguyen Thanh Long,6
+003,Canh dong bat tan,Nguyen Ngoc Tu,2
+004,Vo chong A Phu,To Hoai,3
+005,Lang le Sa Pa,Nguyen Thanh Long,5
 006,The Old Man and The Sea,Ernest Hemingway,4
 007,Les Miserables,Victor Hugo,3
-008,The Stranger,Albert Camus,2
-009,The Kite Runner,Khaled Hosseini,5
-010,Crime and Punishment,Fyodor Dostoevsky,2
+008,The Stranger,Albert Camus,3
+009,The Kite Runner,Khaled Hosseini,4
+010,Dat Rung Phuong Nam,Doan Gioi,3
+011,Dragon Ball,Akira Toriyama,2
+012,Doraemon,Fujiko F. Fujio,3
+013,To Kill a Mockingbird,Harper Lee,3
+014,The Great Gatsby,F. Scott Fitzgerald,3
+015,Song O Day Song,Le Luu,4
+016,So Do,Vu Trong Phung,2

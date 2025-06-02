@@ -8,3 +8,52 @@
 [28/05/2025 00:17:00] RETURN: Student: 20223991 returned book ID: 002
 [28/05/2025 00:17:01] RETURN: Student: 20223991 returned book ID: 001
 [28/05/2025 00:17:01] RETURN: Student: 20223991 returned book ID: 002
+[29/05/2025 03:57:43] BORROW: Student: 20224212 borrowed book ID: 008
+[29/05/2025 09:22:42] REDUCE QUANTITY: Book ID: 009, Reduced by: 1
+[29/05/2025 09:25:48] BORROW: Student: 20224212 borrowed book ID: 001
+[29/05/2025 09:25:53] BORROW: Student: 20224212 borrowed book ID: 002
+[29/05/2025 09:26:30] RETURN: Student: 20224212 returned book ID: 008
+[29/05/2025 09:26:31] RETURN: Student: 20224212 returned book ID: 001
+[29/05/2025 09:26:32] RETURN: Student: 20224212 returned book ID: 002
+[29/05/2025 09:40:50] ADD BOOK: Title: Dragon Ball, Author: Akira Toriyama, Quantity: 2
+[29/05/2025 10:03:40] ADD BOOK: Title: Doraemon, Author: Fujiko F. Fujio, Quantity: 3
+[29/05/2025 15:24:46] ADD BOOK: Title: Mat biec, Author: Nguye Nhat Anh, Quantity: 1
+[29/05/2025 15:25:01] DELETE BOOK: Book ID: 013
+[29/05/2025 15:29:27] BORROW: Student: 20223991 borrowed book ID: 007
+[29/05/2025 15:41:04] RETURN: Student: 20223991 returned book ID: 007
+[30/05/2025 23:09:09] ADD BOOK: Title: To Kill a Mockingbird, Author: Harper Lee, Quantity: 3
+[31/05/2025 23:04:11] DELETE CARD: Student ID: 20221111
+[01/06/2025 13:18:48] REDUCE QUANTITY: Book ID: 002, Reduced by: 2
+[01/06/2025 13:39:57] BORROW: Student: 20224212 borrowed book ID: 003
+[01/06/2025 13:40:08] BORROW: Student: 20224212 borrowed book ID: 002
+[01/06/2025 13:40:09] BORROW: Student: 20224212 borrowed book ID: 005
+[01/06/2025 14:11:27] DELETE CARD: Student ID: 20244391
+[01/06/2025 20:33:11] ADD BOOK: Title: The Great Gatsby, Author: F. Scott Fitzgerald, Quantity: 2
+[01/06/2025 20:35:08] ADD BOOK: Title: Song O Day Song, Author: Le Luu, Quantity: 3
+[01/06/2025 20:36:50] BORROW: Student: 20223991 borrowed book ID: 004
+[01/06/2025 21:59:55] BORROW: Student: 20234477 borrowed book ID: 002
+[01/06/2025 22:01:27] BORROW: Student: 20234477 borrowed book ID: 003
+[01/06/2025 22:01:43] BORROW: Student: 20234477 borrowed book ID: 004
+[01/06/2025 22:05:18] BORROW: Student: 20223991 borrowed book ID: 014
+[01/06/2025 22:06:06] RETURN: Student: 20223991 returned book ID: 004
+[01/06/2025 22:06:30] RETURN: Student: 20223991 returned book ID: 014
+[01/06/2025 22:19:51] ADD BOOK: Title: So Do, Author: Vu Trong Phung, Quantity: 2
+[01/06/2025 22:24:36] REDUCE QUANTITY: Book ID: 5, Reduced by: 1
+[01/06/2025 22:28:24] DELETE CARD: Student ID: 20223991
+[02/06/2025 10:58:22] BORROW: Student: 20223991 borrowed book ID: 015
+[02/06/2025 10:58:29] BORROW: Student: 20223991 borrowed book ID: 014
+[02/06/2025 10:58:30] BORROW: Student: 20223991 borrowed book ID: 002
+[02/06/2025 11:09:30] RETURN: Student: 20223991 returned book ID: 015
+[02/06/2025 11:16:07] RETURN: Student: 20223991 returned book ID: 015
+[02/06/2025 11:17:33] RETURN: Student: 20223991 returned book ID: 002
+[02/06/2025 11:42:43] RETURN: Student: 20224212 returned book ID: 003
+[02/06/2025 11:42:43] RETURN: Student: 20224212 returned book ID: 002
+[02/06/2025 11:45:06] REDUCE QUANTITY: Book ID: 3, Reduced by: 3
+[02/06/2025 11:49:07] REDUCE QUANTITY: Book ID: 7, Reduced by: 1
+[02/06/2025 15:24:15] DELETE BOOK: Book ID: 9
+[02/06/2025 15:29:36] DELETE BOOK: Book ID: 9
+[02/06/2025 15:36:11] DELETE BOOK: Book ID: 3
+[02/06/2025 15:42:37] REDUCE QUANTITY: Book ID: 1, Reduced by: 3
+[02/06/2025 15:43:13] DELETE BOOK: Book ID: 10
+[02/06/2025 15:46:00] DELETE CARD: Student ID: 20224125
+[02/06/2025 15:58:04] DELETE BOOK: Book ID: 010

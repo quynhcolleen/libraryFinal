@@ -8,6 +8,7 @@
 #include <sstream>
 #include <algorithm>
 #include <ctype.h>
+#include <map>
 #include "dataIO.h"
 #include "borrowRec.h"
 #include "log.h"
@@ -22,15 +23,11 @@ string normalizeString(const string &s)
     // Duyệt từng từ trong chuỗi
     while (ss >> word)
     {
-        // Viết hoa chữ cái đầu tiên của từ
-        res += toupper(word[0]);
-
-        // Viết thường các chữ cái còn lại của từ
-        for (size_t j = 1; j < word.size(); j++)
+        // Viết thường các chữ cái của từ
+        for (size_t j = 0; j < word.size(); j++)
         {
             res += tolower(word[j]);
         }
-
         // Thêm một dấu cách sau mỗi từ
         res += " ";
     }
@@ -46,6 +43,11 @@ string normalizeString(const string &s)
 // Thêm sách vào thư viện
 void addBook(vector<BorrowableBook> &books)
 {
+    system("cls");
+    printLibraryHeader();
+    cout << endl;
+    setColor(31); cout << " ADD BOOK(S) TO THE LIBRARY "; setColor(7); cout << "\n\n";
+
     // Tìm ID lớn nhất hiện tại để gán ID mới tiếp theo
     int maxID = 0;
     for (const auto &book : books)
@@ -61,21 +63,36 @@ void addBook(vector<BorrowableBook> &books)
     string title, author;
     int quantity;
 
-    cin.ignore();
-    cout << "Enter title: ";
+    setColor(240); cout << " Enter title: "; setColor(7); cout << " ";
     getline(cin, title);
-
-    cout << "Enter author: ";
-    getline(cin, author);
-
-    cout << "Enter quantity: ";
-    if (!(cin >> quantity) || quantity <= 0) // Kiểm tra hợp lệ input
+    cout << "\n";
+    // Nếu trống thì nhập lại
+    if (title.empty())
     {
-        cout << "Invalid quantity.\n";
+        setColor(207); cout << "\n Title cannot be empty. \n"; setColor(7);
+        return;
+    }
+
+    setColor(240); cout << " Enter author: "; setColor(7); cout << " ";
+    getline(cin, author);
+    cout << "\n";
+
+    // Nếu trống thì nhập lại
+    if (author.empty())
+    {
+        setColor(207); cout << "\n Author cannot be empty. \n"; setColor(7);
+        return;
+    }
+
+    setColor(240); cout << " Enter quantity: "; setColor(7); cout << " ";
+    if (!(cin >> quantity) || quantity <= 0)
+    {
+        cout << "\nInvalid quantity.\n";
         cin.clear();
         cin.ignore(10000, '\n');
         return;
     }
+
     // Chuẩn hóa chuỗi để so sánh
     string normTitle = normalizeString(title);
     string normAuthor = normalizeString(author);
@@ -85,11 +102,15 @@ void addBook(vector<BorrowableBook> &books)
         if (normalizeString(b.getTitle()) == normalizeString(title) &&
             normalizeString(b.getAuthor()) == normalizeString(author))
         {
+            system("cls");
+            printLibraryHeader();
+            cout << endl;
             b.setQuantity(b.getQuantity() + quantity);
-            cout << "\nBook already exists. Quantity updated.\n";
-            cout << "ID: " << b.getID() << endl;
-            cout << title << " by " << author << endl;
-            cout << "Quantity added: " << quantity << ". Total: " << b.getQuantity() << "\n";
+            setColor(47); cout << "\n Book already exists. Quantity updated. \n"; setColor(7); cout << endl;
+            cout << "ID: "; setColor(11); cout << b.getID(); setColor(7); cout <<" - ";
+            setColor(11); cout << "\"" << title << "\""; setColor(7); cout << " by ";
+            setColor(11); cout << author; setColor(7); cout << "." << endl;
+            cout << "Quantity added: "; setColor(11); cout << quantity; setColor(7); cout << ". Total: "; setColor(11); cout << b.getQuantity() << "\n\n";
             return;
         } // Nếu sách đã tồn tại => cập nhật số lượng sách (tăng lên)
     }
@@ -101,11 +122,12 @@ void addBook(vector<BorrowableBook> &books)
 
     // Thêm sách mới vào danh sách
     books.emplace_back(newID, title, author, quantity);
-
-    cout << "\nNew book added:\n";
-    cout << "ID: " << newID << endl;
-    cout << title << " by " << author << endl;
-    cout << "Quantity: " << quantity << ". Total: " << quantity << "\n";
+    cout << endl;
+    setColor(47); cout << " New book added: "; setColor(7); cout << "\n\n";
+    cout << "ID: "; setColor(11); cout << newID; setColor(7); cout <<" - ";
+    setColor(11); cout << "\"" << title << "\""; setColor(7); cout << " by ";
+    setColor(11); cout << author; setColor(7); cout << "." << endl;
+    cout << "Quantity: "; setColor(11); cout << quantity; setColor(7); cout << ". Total: "; setColor(11); cout << quantity << "\n";
 
     // Ghi log thao tác thêm sách
     writeLog("ADD BOOK", "Title: " + title + ", Author: " + author + ", Quantity: " + to_string(quantity));
@@ -165,8 +187,8 @@ vector<BorrowableBook *> searchByAuthor(vector<BorrowableBook> &books, const str
 
     for (BorrowableBook &book : books)
     {
-        string normalizedTitle = normalizeString(book.getAuthor()); // Chuẩn hóa title nếu chưa làm
-        if (normalizedTitle.find(inputName) != string::npos)
+        string normalizedAuthor = normalizeString(book.getAuthor()); // Chuẩn hóa title nếu chưa làm
+        if (normalizedAuthor.find(inputName) != string::npos)
         {
             results.push_back(&book);
         }
@@ -197,15 +219,16 @@ void searchMenu(vector<BorrowableBook> &books)
     do
     {
         setColor(31);
-        cout << " SEARCH BOOK \n\n";
+        cout << " SEARCH BOOK ";
         setColor(7);
+        cout << "\n\n";
         printSearchMenu();
         cout << endl;
         setColor(31);
-        cout << "Enter your choice:";
+        cout << " Enter your choice: ";
         setColor(7);
         cout << " ";
-        cin >> option;
+        option = validateInput(0, 4);
 
         switch (option)
         {
@@ -215,9 +238,9 @@ void searchMenu(vector<BorrowableBook> &books)
             printLibraryHeader();
             string id;
             setColor(31);
-            cout << " SEARCH BOOK \n\n";
-            setColor(7);
-            cout << "\nEnter book ID: ";
+            cout << "\n SEARCH BOOK \n";
+            setColor(7); cout << endl;
+            setColor(240); cout << " Enter book ID: "; setColor(7); cout << " ";
             cin >> id;
             BorrowableBook *result = searchByID(books, id);
 
@@ -226,12 +249,12 @@ void searchMenu(vector<BorrowableBook> &books)
                 system("cls");
                 printLibraryHeader();
                 cout << endl;
-                setColor(31);
-                cout << " Book with ID " << id << " found: \n";
-                setColor(7);
+                setColor(47);
+                cout << " Book with ID " << id << " found:"; setColor(7); cout << "\n\n";
                 drawTable();
                 result->display();
                 endTable();
+                cout << endl;
             }
             else
             {
@@ -249,9 +272,12 @@ void searchMenu(vector<BorrowableBook> &books)
         {
             system("cls");
             printLibraryHeader();
-            cin.ignore();
+            setColor(31);
+            cout << "\n SEARCH BOOK \n";
+            setColor(7); cout << endl;
+
             string keyword;
-            cout << "\nEnter title: ";
+            setColor(240); cout << " Enter book's title: "; setColor(7); cout << " ";
             getline(cin, keyword);
             auto results = searchByTitle(books, keyword);
 
@@ -259,36 +285,42 @@ void searchMenu(vector<BorrowableBook> &books)
             {
                 system("cls");
                 printLibraryHeader();
+                cout << endl;
                 setColor(47);
-                cout << "\n Found " << results.size() << " book(s): \n";
+                cout << " Found " << results.size() << " book(s): ";
                 setColor(7);
+                cout << "\n\n";
                 drawTable();
                 for (BorrowableBook *b : results)
                 {
-                    cout << endl;
                     b->display();
                 }
                 endTable();
+                cout << endl;
             }
             else
             {
                 system("cls");
                 printLibraryHeader();
+                cout << endl;
                 setColor(207);
-                cout << "\n No matching title found.\n";
+                cout << " No matching title found. ";
                 setColor(7);
+                cout << "\n\n";
             }
             break;
         }
 
         case 3: // Tìm theo tác giả
         {
-            cin.ignore();
-            string keyword;
+            system("cls");
+            printLibraryHeader();
             setColor(31);
-            cout << " SEARCH BOOK \n\n";
-            setColor(7);
-            cout << "\nEnter author name: ";
+            cout << "\n SEARCH BOOK \n";
+            setColor(7); cout << endl;
+
+            string keyword;
+            setColor(240); cout << " Enter book's author: "; setColor(7); cout << " ";
             getline(cin, keyword);
             auto results = searchByAuthor(books, keyword);
 
@@ -297,13 +329,17 @@ void searchMenu(vector<BorrowableBook> &books)
                 system("cls");
                 printLibraryHeader();
                 cout << endl;
-                cout << "\nFound " << results.size() << " book(s):\n";
+                setColor(47);
+                cout << " Found " << results.size() << " book(s): ";
+                setColor(7);
+                cout << "\n\n";
                 drawTable();
                 for (BorrowableBook *b : results)
                 {
                     b->display();
                 }
                 endTable();
+                cout << endl;
             }
             else
             {
@@ -311,8 +347,9 @@ void searchMenu(vector<BorrowableBook> &books)
                 printLibraryHeader();
                 cout << endl;
                 setColor(207);
-                cout << "\nNo matching author found.\n\n";
+                cout << " No matching author found. ";
                 setColor(7);
+                cout << "\n\n";
             }
             break;
         }
@@ -340,10 +377,11 @@ void searchMenu(vector<BorrowableBook> &books)
             {
                 system("cls");
                 printLibraryHeader();
-                cout << endl;
+                cout << "\n\n";
                 setColor(207);
-                cout << "\nNo books currently available.\n\n";
+                cout << " No book is currently available.";
                 setColor(7);
+                cout << "\n\n";
             }
             break;
         }
@@ -351,7 +389,9 @@ void searchMenu(vector<BorrowableBook> &books)
         case 0:
             return;
         default:
-            setColor(207); cout << "\nInvalid choice. Try again.\n\n"; setColor(7);
+            setColor(207);
+            cout << "\nInvalid choice. Try again.\n\n";
+            setColor(7);
         }
 
     } while (option != 0);
@@ -359,10 +399,17 @@ void searchMenu(vector<BorrowableBook> &books)
 // Xóa sách hoặc giảm số lượng sách
 void removeOrReduceBook(vector<BorrowableBook> &books)
 {
+    system("cls");
+    printLibraryHeader();
+    cout << endl;
+    setColor(31); cout << " DELETE/REDUCE BOOK'S QUANTITY "; setColor(7); cout << "\n\n";
     string id;
-    cout << "Enter book ID: ";
+    setColor(240); cout << " Enter book's ID: "; setColor(7); cout << " ";
     cin >> id;
-
+    while (id.length() < 3)
+    {
+        id = "0" + id; // Nếu chưa ID là 001 mà nhập 1 thì sẽ tự động thành 001
+    }
     BorrowableBook *book = searchByID(books, id);
     if (!book)
     {
@@ -371,72 +418,101 @@ void removeOrReduceBook(vector<BorrowableBook> &books)
         setColor(7);
         return;
     }
-
-    cout << "\nBook found:\n";
+    cout << endl;
+    setColor(240);
+    cout << " Book found: ";
+    setColor(7); cout << "\n\n";
     drawTable();
     book->display();
     endTable();
 
     int choice;
-    cout << "\nWhat do you want to do?\n";
-    cout << "1. Delete book completely\n";
-    cout << "2. Reduce quantity\n\n";
-    cout << "Your choice: ";
-    cin >> choice;
+    cout << endl;
+    setColor(240); cout << " What do you want to do? "; setColor(7); cout << "\n\n";
+    setColor(240); cout << "[1]"; setColor(7); cout << " Delete book completely\n";
+    setColor(240); cout << "[2]"; setColor(7); cout << " Reduce quantity\n\n";
+    setColor(31); cout << " Enter your choice: "; setColor(7); cout << " ";
+    choice = validateInput(1,2);
 
     if (choice == 1)
     {
         char confirm;
-        cout << "Are you sure you want to DELETE this book? (y/n): ";
+        cout << endl;
+        setColor(224);
+        cout << " ! "; setColor(7);
+        cout << " Are you sure you want to DELETE this book? (y/n): ";
         cin >> confirm;
         if (confirm == 'y' || confirm == 'Y')
         {
-            // tìm vị trí của sách
-            for (size_t i = 0; i < books.size(); ++i)
-            {
-                if (books[i].getID() == id)
-                {
-                    swap(books[i], books.back());
-                    books.pop_back(); // Xóa phần tử trong vector theo cách swap-pop
-                    break;
+            bool found = false;
+            // Duyệt qua danh sách sách
+            for (auto it = books.begin(); it != books.end(); it++) {
+            // Nếu ID sách trùng với ID cần xóa
+                if (it->getID() == id) {
+                    books.erase(it); // Xóa sách khỏi danh sách
+                    found = true;    // Đánh dấu đã tìm thấy
+                    break;           // Thoát khỏi vòng lặp
                 }
             }
-            saveBooksToFiles(books);
-            writeLog("DELETE BOOK", "Book ID: " + id);
-            setColor(10);
-            cout << "Book " << id << " deleted.\n";
+
+            if (found) {
+            saveBooksToFiles(books); // Lưu lại danh sách sách sau khi xóa
+            writeLog("DELETE BOOK", "Book ID: " + id); // Ghi lại log xóa sách
+            system("cls");
+            printLibraryHeader();
+            cout << endl;
+            setColor(47);
+            cout << " Book " << id << " deleted. ";
             setColor(7);
+            cout << endl;
+            }
         }
         else
         {
-            cout << "Cancelled.\n";
+            system("cls");
+            printLibraryHeader();
+            cout << endl;        
+            setColor(240); cout << " Cancelled. ";
+            setColor(7); cout << endl;
         }
     }
 
     else if (choice == 2)
     {
         int reduce;
-        cout << "Enter quantity to reduce: ";
+        cout << endl;
+        setColor(240);
+        cout << " Enter quantity to reduce: ";
+        setColor(7); cout << " ";
         cin >> reduce;
 
-        if (reduce <= 0)
+        if (reduce < 0)
         {
-            cout << "Invalid number.\n";
+            cout << endl;
+            setColor(207);
+            cout << " Invalid number. ";
+            setColor(7); cout << "\n";
             return;
         }
 
         if (reduce >= book->getQuantity())
         {
-            cout << "You are trying to reduce more than available. Use delete instead.\n";
+            cout << endl;
+            setColor(207);
+            cout << " You are trying to reduce more than available. Use delete instead.\n";
+            setColor(7);
             return;
         }
 
         book->setQuantity(book->getQuantity() - reduce);
         saveBooksToFiles(books);
         writeLog("REDUCE QUANTITY", "Book ID: " + id + ", Reduced by: " + to_string(reduce));
-        setColor(10);
-        cout << "Quantity reduced. New quantity: " << book->getQuantity() << "\n";
-        setColor(7);
+        system("cls");
+        printLibraryHeader();
+        cout << endl;
+        setColor(31); cout << " DELETE/REDUCE BOOK'S QUANTITY "; setColor(7); cout << "\n\n";
+        setColor(47);
+        cout << " Quantity of book with ID " << id << " has been reduced. New quantity: "; setColor(7); cout << " " << book->getQuantity() << "\n";
     }
 
     else
@@ -448,34 +524,42 @@ void removeOrReduceBook(vector<BorrowableBook> &books)
 // Cho thuê sách
 void bookIssue(vector<BorrowableBook> &books)
 {
+    system("cls");
+    printLibraryHeader();
+    cout << endl;
+    setColor(31); cout << " BORROW LIBRARY BOOK(S) "; setColor(7); cout << "\n\n";
     vector<BorrowableBook *> borrowed;
-
     string user;
-    cout << "Enter borrower's student ID: ";
+    setColor(240); cout << " Enter borrower's student ID: "; setColor(7); cout << " ";
     cin >> user;
-
+    cout << "\n";
     Date borrowDate = Date::getCurrentDate();
     int amount;
-    cout << "Enter how many book you want to borrow: ";
+    setColor(240); cout << " Enter how many book you want to borrow: "; setColor(7); cout << " ";
     cin >> amount;
+    cout << "\n";
     while (amount--)
     {
-        cout << "Enter book's ID: ";
+        setColor(240); cout << " Enter book's ID: "; setColor(7); cout << " ";
         string input;
         cin >> input;
         BorrowableBook *book = searchByID(books, input);
         if (book == nullptr)
         {
-            setColor(12);
-            cout << "Book not found.\n";
+            cout << endl;
+            setColor(207);
+            cout << " Book not found ";
             setColor(7);
+            cout << "\n\n";
             continue; // Không có thì bỏ qua
         }
         else if (book->getQuantity() <= 0)
         {
-            setColor(12);
-            cout << "This book is currently not available\n";
+            cout << endl;
+            setColor(207);
+            cout << " This book is currently not available ";
             setColor(7);
+            cout << "\n\n";
             continue;
         }
 
@@ -487,10 +571,13 @@ void bookIssue(vector<BorrowableBook> &books)
     }
     if (!borrowed.empty())
     {
-        setColor(10);
-        cout << "\nUser " << user << " borrowed the following book(s):\n";
+        system("cls");
+        printLibraryHeader();
+        cout << endl;
+        setColor(31);
+        cout << " User " << user << " borrowed the following book(s): ";
         setColor(7);
-
+        cout << "\n\n";
         drawTable();
         for (BorrowableBook *b : borrowed)
         {
@@ -513,14 +600,19 @@ void bookIssue(vector<BorrowableBook> &books)
 // Trả sách
 void bookReturn(vector<BorrowableBook> &books)
 { // Thêm & để tránh copy
+    system("cls");
+    printLibraryHeader();
+    cout << endl;
+    setColor(31); cout << " RETURN LIBRARY BOOK(S) "; setColor(7); cout << "\n\n";
     string studentID;
-    cout << "Enter student's ID: ";
+    setColor(240); cout << " Enter borrower's student ID: "; setColor(7); cout << " ";
     cin >> studentID;
 
     // Lọc danh sách đã mượn của sinh viên
     vector<BorrowRec> records = loadBorrowRec();
     vector<BorrowRec> studentRecords;
     vector<BorrowableBook *> borrowedBooks;
+    vector<BorrowableBook *> returnedBooks;
     for (auto &rec : records)
     {
         if (rec.studentID == studentID)
@@ -536,17 +628,21 @@ void bookReturn(vector<BorrowableBook> &books)
 
     // Kiểm tra nếu sinh viên không mượn sách nào
     if (studentRecords.empty())
-    {
-        setColor(12);
-        cout << "This student hasn't borrowed any books.\n";
+    {   
+        cout << endl;
+        setColor(207);
+        cout << " This student hasn't borrowed any books. ";
         setColor(7);
+        cout << endl;
         return;
     }
 
     // Hiển thị danh sách sách đang mượn
     system("cls");
     printLibraryHeader();
-    cout << "\nBooks borrowed by student " << studentID << ":\n";
+    cout << endl;
+    setColor(31); cout << " RETURN LIBRARY BOOK(S) "; setColor(7); cout << "\n\n";
+    setColor(240); cout << " Books borrowed by student with ID " << studentID << ": "; setColor(7); cout << "\n\n";
     drawTable();
     for (auto &rec : studentRecords)
     {
@@ -563,16 +659,21 @@ void bookReturn(vector<BorrowableBook> &books)
     endTable();
 
     int amount;
-    cout << "Enter the amount of book to be returned: ";
+    cout << endl;
+    setColor(240); cout << " Enter the amount of book to be returned: "; setColor(7); cout << " ";
     cin >> amount;
-
+    cout << endl;
     // Xử lý trả từng quyển sách
     for (int i = 0; i < amount; i++)
     {
         string bookID;
-        cout << "Enter book ID to return (" << i + 1 << "/" << amount << "): ";
+        setColor(240);
+        cout << " Enter book ID to return (" << i + 1 << "/" << amount << "): "; setColor(7); cout << " ";
         cin >> bookID;
-
+        while (bookID.length() < 3)
+        {
+            bookID = "0" + bookID; // Nếu chưa ID là 001 mà nhập 1 thì sẽ tự động thành 001
+        }
         // Tìm sách trong danh sách mượn của sinh viên
         bool found = false;
         for (auto it = studentRecords.begin(); it != studentRecords.end(); ++it)
@@ -585,10 +686,12 @@ void bookReturn(vector<BorrowableBook> &books)
                 BorrowableBook *book = searchByID(books, bookID);
                 if (book != nullptr)
                 {
+                    cout << endl;
                     book->returnBook();
-                    cout << "Book " << bookID << " returned successfully." << endl;
+                    setColor(47);
+                    cout << " => "; setColor(10); cout << " Book " << bookID << " returned successfully."; setColor(7); cout << "\n\n";
                 }
-
+                returnedBooks.push_back(book);
                 // Xóa khỏi danh sách tạm
                 studentRecords.erase(it);
 
@@ -631,8 +734,35 @@ void bookReturn(vector<BorrowableBook> &books)
 
     // Lưu lại trạng thái sách
     saveBooksToFiles(books);
+    system("cls");
+    printLibraryHeader();
+    cout << endl;
+    setColor(47);
+    cout << " Return process completed! "; setColor(7); cout << "\n\n";
+    setColor(240); cout << "Student with ID " << studentID << " returned the following book(s): ";
+    setColor(7); cout << "\n\n";
 
-    setColor(10);
-    cout << "\nReturn process completed!\n";
-    setColor(7);
+    map<string, pair<BorrowableBook*, int>> returnedMap;
+    for (auto *book : returnedBooks)
+    {
+      if (book != nullptr)
+      {
+        returnedMap[book->getID()].first = book;
+        returnedMap[book->getID()].second++;
+      }
+    }
+
+    // In ra bảng
+    drawTable();
+    for (const auto &entry : returnedMap)
+    {   
+        BorrowableBook *book = entry.second.first;
+        int count = entry.second.second;
+        cout << "| " << setw(4) << left << book->getID()
+            << " | " << setw(20) << left << book->getAuthor()
+            << " | " << setw(28) << left << book->getTitle()
+            << " | " << setw(8) << right << count << " |\n";
+    }
+    endTable();
+    cout << endl;
 }

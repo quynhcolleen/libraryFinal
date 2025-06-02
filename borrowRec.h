@@ -36,42 +36,55 @@ void saveBR(const BorrowRec &record)
 // Đọc toàn bộ danh sách mượn sách từ file "borrowed.txt"
 vector<BorrowRec> loadBorrowRec()
 {
-    vector<BorrowRec> records;         // Danh sách các bản ghi mượn sách
-    ifstream fin("data/borrowed.txt"); // Mở file để đọc
+    vector<BorrowRec> records;              // Tạo vector để lưu các bản ghi mượn sách
+    ifstream fin("data/borrowed.txt");      // Mở file chứa dữ liệu mượn sách
     string line;
 
     // Đọc từng dòng trong file
     while (getline(fin, line))
     {
-        stringstream ss(line);
+        stringstream ss(line);              // Tạo stringstream để tách các phần tử trong dòng
         string studentID, bookID, dateStr;
 
-        // Tách các trường dữ liệu theo dấu phẩy
+        // Tách mã sinh viên, mã sách và chuỗi ngày tháng
         getline(ss, studentID, ',');
         getline(ss, bookID, ',');
-        getline(ss, dateStr); // Phần còn lại là chuỗi ngày (dd/mm/yyyy)
+        getline(ss, dateStr);               // Lấy phần còn lại là chuỗi ngày mượn (dd/mm/yyyy)
 
-        // Tách ngày, tháng, năm từ chuỗi dateStr
-        stringstream dateSS(dateStr);
+        stringstream dateSS(dateStr);       // Tạo stringstream để tách ngày/tháng/năm
         string dayStr, monthStr, yearStr;
 
+        // Tách ngày, tháng, năm từ chuỗi
         getline(dateSS, dayStr, '/');
         getline(dateSS, monthStr, '/');
         getline(dateSS, yearStr, '/');
 
-        int d = stoi(dayStr);
-        int m = stoi(monthStr);
-        int y = stoi(yearStr);
-        if (y < 100)
-            y += 2000; // Nếu người dùng chỉ nhập năm dạng ngắn như "25", chuyển thành "2025"
+        try {
+            // Chuyển chuỗi ngày/tháng/năm sang kiểu số nguyên
+            int d = stoi(dayStr);
+            int m = stoi(monthStr);
+            int y = stoi(yearStr);
+            if (y < 100) y += 2000; // Nếu năm chỉ có 2 chữ số thì thêm 2000 (ví dụ: 23 -> 2023)
 
-        // Thêm bản ghi mới vào vector
-        records.push_back({studentID, bookID, Date(d, m, y)});
+            // Kiểm tra ngày có hợp lệ không
+            if (Date::isValidDate(d, m, y)) {
+                // Nếu hợp lệ, thêm bản ghi vào vector
+                records.push_back({studentID, bookID, Date(d, m, y)});
+            } else {
+                // Nếu không hợp lệ, in thông báo lỗi
+                cout << "Invalid date in borrowed.txt: " << dateStr << endl;
+            }
+
+        } catch (const exception &e) {
+            // Bắt lỗi khi chuyển đổi string -> int (ví dụ nếu ngày tháng không phải số)
+            cout << "Error parsing date in borrowed.txt: " << dateStr << " — " << e.what() << endl;
+        }
     }
 
-    fin.close(); // Đóng file sau khi đọc xong
-    return records;
+    fin.close(); // Đóng file
+    return records; // Trả về danh sách các bản ghi mượn sách
 }
+
 
 // Đếm số lần một sinh viên đã mượn một cuốn sách nhất định
 int countBorrowed(const string &studentID, const string &bookID)

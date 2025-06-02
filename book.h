@@ -3,6 +3,7 @@
 #include <string>
 #include <iomanip>
 #include "date.h"
+#include "ui.h"
 
 using namespace std;
 
@@ -66,10 +67,10 @@ public:
 
     void display()
     {
-        cout << "| " << setw(4) << left << id
-             << " | " << setw(20) << left << author
-             << " | " << setw(28) << left << title
-             << " | " << setw(8) << right << quantity << " |\n";
+        cout << "| " << setw(4) << left << id;
+        cout << " | " << setw(20) << left << author;
+        cout << " | " << setw(28) << left << title;
+        cout << " | " << setw(8) << right << quantity << " |\n";
     };
 };
 
@@ -91,7 +92,8 @@ public:
             quantity--;
             borrowDate = date;
             borrowUser = user;
-            cout << "Borrowed by: " << user << " on " << date.toString() << "." << endl;
+            setColor(11);
+            cout << "\n→ Borrowed by: " << user << " on " << date.toString() << "." << "\n\n"; setColor(7);
         }
         else
         {
@@ -102,7 +104,6 @@ public:
     void returnBook() override
     {
         quantity++;
-        cout << "Book returned by: " << borrowUser << endl;
         borrowDate = Date();
         borrowUser = "";
     }
