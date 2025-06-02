@@ -1,1 +1,1 @@
-Update version 2: gộp file và làm gọn cấu trúc module
+Update version 3: final, gọn gàng hơn, đầy đủ comment tiếng Việt cho các chức năng.
