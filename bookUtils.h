@@ -65,6 +65,17 @@ void addBook(vector<BorrowableBook> &books)
 
     setColor(240); cout << " Enter title: "; setColor(7); cout << " ";
     getline(cin, title);
+    stringstream ss1(title);
+	string normalizedTitle = "", wordTitle;
+	while(ss1 >> wordTitle){
+		normalizedTitle += toupper(wordTitle[0]);
+		for(int j = 1; j < wordTitle.size(); j++){
+			normalizedTitle += tolower(wordTitle[j]);
+		}
+		normalizedTitle += " ";
+	}
+	normalizedTitle.pop_back();
+    title = normalizedTitle;
     cout << "\n";
     // Nếu trống thì nhập lại
     if (title.empty())
@@ -75,6 +86,17 @@ void addBook(vector<BorrowableBook> &books)
 
     setColor(240); cout << " Enter author: "; setColor(7); cout << " ";
     getline(cin, author);
+    stringstream ss(author);
+	string normalizedAuthor = "", word;
+	while(ss >> word){
+		normalizedAuthor += toupper(word[0]);
+		for(int j = 1; j < word.size(); j++){
+			normalizedAuthor += tolower(word[j]);
+		}
+		normalizedAuthor += " ";
+	}
+	normalizedAuthor.pop_back();
+    author = normalizedAuthor;
     cout << "\n";
 
     // Nếu trống thì nhập lại

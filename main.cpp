@@ -117,7 +117,7 @@ int main()
                 setColor(240); cout << "[2]"; setColor(7); cout << " Delete a library card\n";
                 setColor(240); cout << "[3]"; setColor(7); cout << " Show all cards\n";
                 setColor(240); cout << "[0]"; setColor(7); cout << " Return to main menu\n\n";
-                setColor(31); cout << "Enter your choice: "; setColor(7); cout << " ";
+                setColor(31); cout << " Enter your choice: "; setColor(7); cout << " ";
                 int subChoice = validateInput(0, 3);
             switch (subChoice)
             {

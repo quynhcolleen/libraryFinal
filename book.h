@@ -92,8 +92,9 @@ public:
             quantity--;
             borrowDate = date;
             borrowUser = user;
-            setColor(11);
-            cout << "\n→ Borrowed by: " << user << " on " << date.toString() << "." << "\n\n"; setColor(7);
+            cout << endl;
+            setColor(47); cout << " => "; setColor(11);
+            cout << " Borrowed by: " << user << " on " << date.toString() << "." << "\n\n"; setColor(7);
         }
         else
         {

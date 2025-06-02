@@ -123,7 +123,8 @@ void createCard()
     // Kiểm tra xem ngày sinh có hợp lệ không
     if (!Date::isValidDate(d, m, y))
     {
-        setColor(12); cout << "\n Invalid date.\n"; setColor(7); 
+        cout << endl;
+        setColor(206); cout << " Invalid date. "; setColor(7); cout << endl;
         return;
     }
 
