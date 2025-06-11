@@ -180,7 +180,7 @@ int main()
             setColor(14);
             cout << endl
                  << "2024.2 final by Colleen Hoang.";
-            sleep(1.5); // Đợi 2 giây trước khi thoát
+            sleep(1.5);
             exit(0);
             break;
 

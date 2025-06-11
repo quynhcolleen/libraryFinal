@@ -156,7 +156,7 @@ void createCard()
          << " | " << setw(12) << left << card.dob.toString()
          << " | " << setw(12) << left << card.issueDate.toString() << " |\n";
     cout << "+------------+----------------------------+--------------+--------------+\n";
-
+    writeLog("CREATE CARD", "Student ID: " + card.studentID);
     setColor(7);
 }
 
@@ -237,7 +237,7 @@ void deleteCard()
     cout << endl;
     setColor(224);
     cout << " ! "; setColor(7);
-    cout << " Are you sure you want to DELETE this book? (y/n): ";
+    cout << " Are you sure you want to DELETE this card? (y/n): ";
     char confirm;
     cin >> confirm;
     if (confirm != 'y' && confirm != 'Y')

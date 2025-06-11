@@ -600,16 +600,27 @@ void bookIssue(vector<BorrowableBook> &books)
         cout << " User " << user << " borrowed the following book(s): ";
         setColor(7);
         cout << "\n\n";
-        drawTable();
-        for (BorrowableBook *b : borrowed)
-        {
-            int qty = countBorrowed(user, b->getID());
-            cout << "| " << setw(4) << left << b->getID()
-                 << " | " << setw(20) << left << b->getAuthor()
-                 << " | " << setw(28) << left << b->getTitle()
-                 << " | " << setw(8) << right << qty << " |\n";
-        }
-        endTable();
+// Gom nhóm các sách mượn để hiển thị một dòng duy nhất mỗi cuốn
+    map<string, pair<BorrowableBook*, int>> borrowedMap;
+
+    for (BorrowableBook *b : borrowed)
+    {
+        borrowedMap[b->getID()].first = b;
+        borrowedMap[b->getID()].second++;
+    }
+
+    // In bảng
+    drawTable();
+    for (const auto &entry : borrowedMap)
+    {
+    BorrowableBook *book = entry.second.first;
+    int count = entry.second.second;
+    cout << "| " << setw(4) << left << book->getID()
+        << " | " << setw(20) << left << book->getAuthor()
+        << " | " << setw(28) << left << book->getTitle()
+        << " | " << setw(8) << right << count << " |\n";
+    }
+    endTable();
     }
     else
     {
@@ -665,19 +676,29 @@ void bookReturn(vector<BorrowableBook> &books)
     cout << endl;
     setColor(31); cout << " RETURN LIBRARY BOOK(S) "; setColor(7); cout << "\n\n";
     setColor(240); cout << " Books borrowed by student with ID " << studentID << ": "; setColor(7); cout << "\n\n";
-    drawTable();
+    map<string, pair<BorrowableBook*, int>> borrowedMap;
+
     for (auto &rec : studentRecords)
     {
         BorrowableBook *book = searchByID(books, rec.bookID);
         if (book != nullptr)
         {
-            int qty = countBorrowed(studentID, book->getID());
-            cout << "| " << setw(4) << left << book->getID()
-                 << " | " << setw(20) << left << book->getAuthor()
-                 << " | " << setw(28) << left << book->getTitle()
-                 << " | " << setw(8) << right << qty << " |\n";
+            borrowedMap[book->getID()].first = book;
+            borrowedMap[book->getID()].second++;
         }
     }
+
+    // In bảng gom nhóm
+    drawTable();
+    for (const auto &entry : borrowedMap)
+    {
+        BorrowableBook *book = entry.second.first;
+        int count = entry.second.second;
+        cout << "| " << setw(4) << left << book->getID()
+             << " | " << setw(20) << left << book->getAuthor()
+             << " | " << setw(28) << left << book->getTitle()
+             << " | " << setw(8) << right << count << " |\n";
+    }   
     endTable();
 
     int amount;
@@ -733,9 +754,11 @@ void bookReturn(vector<BorrowableBook> &books)
 
         if (!found)
         {
+            cout << endl;
             setColor(12);
             cout << "Book ID " << bookID << " not found in your borrowed list.\n";
             setColor(7);
+            cout << endl;
             i--; // Giảm counter để nhập lại
         }
     }

@@ -57,3 +57,21 @@
 [02/06/2025 15:43:13] DELETE BOOK: Book ID: 10
 [02/06/2025 15:46:00] DELETE CARD: Student ID: 20224125
 [02/06/2025 15:58:04] DELETE BOOK: Book ID: 010
+[10/06/2025 21:45:17] ADD BOOK: Title: Noi Buon Chien Tranh, Author: Bao Ninh, Quantity: 2
+[10/06/2025 21:48:34] DELETE BOOK: Book ID: 013
+[10/06/2025 21:49:30] REDUCE QUANTITY: Book ID: 016, Reduced by: 1
+[10/06/2025 21:55:06] BORROW: Student: 20223991 borrowed book ID: 003
+[10/06/2025 21:55:18] BORROW: Student: 20223991 borrowed book ID: 004
+[10/06/2025 21:55:19] BORROW: Student: 20223991 borrowed book ID: 006
+[10/06/2025 21:55:53] BORROW: Student: 20223991 borrowed book ID: 015
+[10/06/2025 21:55:54] BORROW: Student: 20223991 borrowed book ID: 015
+[10/06/2025 21:55:56] BORROW: Student: 20223991 borrowed book ID: 009
+[10/06/2025 21:57:27] RETURN: Student: 20223991 returned book ID: 015
+[10/06/2025 21:57:31] RETURN: Student: 20223991 returned book ID: 015
+[10/06/2025 21:57:35] RETURN: Student: 20223991 returned book ID: 009
+[10/06/2025 21:57:37] RETURN: Student: 20223991 returned book ID: 014
+[10/06/2025 21:57:38] RETURN: Student: 20223991 returned book ID: 004
+[10/06/2025 22:01:57] DELETE CARD: Student ID: 20221287
+[11/06/2025 21:38:27] BORROW: Student: 20223991 borrowed book ID: 001
+[11/06/2025 21:38:28] BORROW: Student: 20223991 borrowed book ID: 001
+[11/06/2025 21:38:28] BORROW: Student: 20223991 borrowed book ID: 001
